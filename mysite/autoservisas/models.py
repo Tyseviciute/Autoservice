@@ -18,7 +18,7 @@ class Car(models.Model):
     automodel = models.ForeignKey('AutoModel', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"{self.client}: {self.valst_nr} - {self.vin_code}"
+        return f"{self.automodel} - {self.client}: {self.valst_nr} - {self.vin_code}"
 
 
 
@@ -45,5 +45,5 @@ class OrderCar(models.Model):
     service = models.ForeignKey('Service', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"{self.kiekis}: {self.kaina}"
+        return f"{self.order}, {self.service.name} - {self.kiekis}: {self.kaina}"
 

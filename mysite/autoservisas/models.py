@@ -48,6 +48,21 @@ class Order(models.Model):
     suma = models.FloatField('Sum', help_text='Enter a sum of order')
     car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)
 
+    LOAN_STATUS = (
+        ('a', 'administrative'),
+        ('r', 'repair'),
+        ('e', 'repaired'),
+        ('g', 'given away')
+    )
+
+    status = models.CharField(
+        max_length=1,
+        choices=LOAN_STATUS,
+        blank=True,
+        default='a',
+        help_text='Status'
+    )
+
     class Meta:
         verbose_name = "Order"
         verbose_name_plural = "Orders"

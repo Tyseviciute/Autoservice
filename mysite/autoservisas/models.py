@@ -27,6 +27,9 @@ class Car(models.Model):
         verbose_name = "Car"
         verbose_name_plural = "Cars"
 
+    def get_absolute_url(self):
+        return reverse('car-detail', args=[str(self.id)])
+
     def __str__(self):
         return f"{self.automodel} - {self.client}: {self.valst_nr} - {self.vin_code}"
 

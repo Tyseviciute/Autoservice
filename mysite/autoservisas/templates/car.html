@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+  <h3>Car owner</h3>
+  {{ car.client }}
+  <hr/>
+  <h3>Car vehicle registration number and vin code </h3>
+  {{ car.valst_nr }} {{ car.vin_code }}
+  <hr/>
+</div>
+
+
+{% endblock %}

@@ -14,6 +14,7 @@ class OrderCarInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('car', 'date', 'status')
     inlines = [OrderCarInline]  # prijungimas uzsakymomasinos prie uzsakymo
+    list_editable = ('date', 'status')
 
 
 class CarAdmin(admin.ModelAdmin):

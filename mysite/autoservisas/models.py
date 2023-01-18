@@ -70,8 +70,11 @@ class Order(models.Model):
         verbose_name = "Order"
         verbose_name_plural = "Orders"
 
+    def get_absolute_url(self):  # gauti linkus spec pavadinimas
+        return reverse('order-detail', args=[str(self.id)])
+
     def __str__(self):
-        return f"{self.car}: {self.date}, {self.suma}"
+        return f"{self.car}: {self.date}, {self.suma}, {self.status}"
 
 
 class OrderCar(models.Model):

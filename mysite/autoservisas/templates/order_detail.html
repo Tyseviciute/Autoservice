@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Car</h4>
+<p><a href="{% url 'car-detail' order.car.id %}"> {{ order.car }}</a></p>
+<p>Price of all: {{ order.suma }}</p>
+<p>Order status: {{ order.get_status_display }}</p>
+{% for order_car in order.ordercar_set.all %}
+<p>Quantity: {{ order_car.kiekis }}</p>
+<p>Price: {{ order_car.kaina }}</p>
+<p>Service: {{ order_car.service }}</p>
+{% endfor %}
+
+{% endblock %}

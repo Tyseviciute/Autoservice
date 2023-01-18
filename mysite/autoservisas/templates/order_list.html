@@ -4,7 +4,7 @@
 {% if order_list %}
 <ul>
   {% for order in order_list %}
-  <li> {{ order.date }} {{ order.suma }} {{ order.car }}</li>
+  <li><a href="{{ order.id }}"> {{ order.date }}</a></li>
   {% endfor %}
 </ul>
 {% else %}

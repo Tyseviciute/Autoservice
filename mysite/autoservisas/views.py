@@ -1,6 +1,7 @@
 from .models import Car, AutoModel, OrderCar, Order, Service
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 
 
 
@@ -24,8 +25,11 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 def cars(request):
-    cars = Car.objects.all()
-    context = {'cars': cars}
+    # cars = Car.objects.all()
+    paginator = Paginator(Car.objects.all(), 1)
+    page_number = request.GET.get('page')
+    paged_cars = paginator.get_page(page_number)
+    context = {'cars': paged_cars}
     return render(request, 'cars.html', context=context)
 
 

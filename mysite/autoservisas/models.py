@@ -21,6 +21,7 @@ class Car(models.Model):
     vin_code = models.CharField('VIN_code', max_length=17, help_text='Enter a VIN code')
     client = models.CharField('Client', max_length=200, help_text='Enter client name and last name')
     automodel = models.ForeignKey('AutoModel', on_delete=models.SET_NULL, null=True)
+    cover = models.ImageField('Photo', upload_to='covers', null=True)
 
     # pervadinti laukus klasiu
     class Meta:

@@ -19,6 +19,9 @@
                 <li><a href="{% url 'index' %}">Main page</a></li>
                 <li><a href="{% url 'car' %}">All cars</a></li>
                 <li><a href="{% url 'orders' %}">All orders</a></li>
+                <form action="{% url 'search' %}" method="get" class="form-inline" >
+                        <input name="query" class="form-control" type="text" placeholder="Search">
+                    </form>
             </ul>
             {% endblock %}
         </div>

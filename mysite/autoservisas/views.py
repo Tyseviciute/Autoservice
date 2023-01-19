@@ -36,6 +36,7 @@ def car(request, car_id):
 
 class OrderListView(generic.ListView):
     model = Order
+    paginate_by = 1
     template_name = 'order_list.html'
 
 class OrderDetailView(generic.DetailView):

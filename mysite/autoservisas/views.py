@@ -16,10 +16,14 @@ def index(request):
 
     num_automodel = AutoModel.objects.all().count()
 
+    num_visits = request.session.get('num_visits', 1)  # userio apsilaankymu skaiciavimas
+    request.session['num_visits'] = num_visits + 1
+
     context = {'num_service': num_service,
                'num_order': num_order,
                'num_car': num_car,
-               'num_automodel': num_automodel}
+               'num_automodel': num_automodel,
+               'num_visits': num_visits}
     return render(request, 'index.html', context=context)
 
 

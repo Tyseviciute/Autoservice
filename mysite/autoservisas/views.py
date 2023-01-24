@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from .models import Car, AutoModel, OrderCar, Order, Service
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
@@ -60,3 +62,11 @@ def search(request):
     )
     return render(request, 'search.html', {"cars": search_results,
                                            "query": query})
+
+
+class LoanedOrderByUserListView(LoginRequiredMixin, generic.ListView):
+    model = Order
+    template_name = 'client_orders.html'
+
+    def get_queryset(self):
+        return Order.objects.all()

@@ -12,7 +12,7 @@ class OrderCarInline(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('car', 'date', 'status')
+    list_display = ('car', 'date', 'status', 'owner', 'returne')
     inlines = [OrderCarInline]  # prijungimas uzsakymomasinos prie uzsakymo
     list_editable = ('date', 'status')
 
@@ -21,7 +21,6 @@ class CarAdmin(admin.ModelAdmin):
     list_display = ('client', 'valst_nr', 'vin_code')  # Kad butu rodomas ekranas su isvardintais pavadinimais stulepio pavidalu
     list_filter = ('client', 'automodel')  # filtras
     search_fields = ('valst_nr', 'vin_code')  # paieska pagal
-
 
 
 class ServiceAdmin(admin.ModelAdmin):

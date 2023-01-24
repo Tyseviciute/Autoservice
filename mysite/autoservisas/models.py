@@ -1,6 +1,10 @@
+from datetime import date
+
 from django.db import models
 from django.urls import reverse
-import uuid
+from django.contrib.auth.models import User
+from tinymce.models import HTMLField
+
 
 
 # Create your models here.
@@ -20,8 +24,10 @@ class Car(models.Model):
     valst_nr = models.CharField('Number', max_length=6, help_text='Enter the country registration number')
     vin_code = models.CharField('VIN_code', max_length=17, help_text='Enter a VIN code')
     client = models.CharField('Client', max_length=200, help_text='Enter client name and last name')
+    description = HTMLField(default='Cia yra automobilio aprasymas')
     automodel = models.ForeignKey('AutoModel', on_delete=models.SET_NULL, null=True)
     cover = models.ImageField('Photo', upload_to='covers', null=True)
+
 
     # pervadinti laukus klasiu
     class Meta:
@@ -51,6 +57,7 @@ class Order(models.Model):
     date = models.DateTimeField('Date', null=True, blank=True)
     suma = models.FloatField('Sum', help_text='Enter a sum of order')
     car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)
+    returne = models.DateField('Return for client', null=True, blank=True)
 
     LOAN_STATUS = (
         ('a', 'administrative'),
@@ -66,6 +73,15 @@ class Order(models.Model):
         default='a',
         help_text='Status'
     )
+
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    @property
+    def is_overreturne(self):
+        if self.returne and date.today() > self.returne:
+            return True
+        return False
+
 
     class Meta:
         verbose_name = "Order"

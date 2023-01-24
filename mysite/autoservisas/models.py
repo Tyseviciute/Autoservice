@@ -100,9 +100,21 @@ class OrderCar(models.Model):
     order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
     service = models.ForeignKey('Service', on_delete=models.SET_NULL, null=True)
 
+    @property
+    def sum_of_order(self):
+        total_sum = int(self.kiekis) * self.kaina
+        return total_sum
+
     class Meta:
         verbose_name = "Ordercar"
         verbose_name_plural = "Ordercars"
 
     def __str__(self):
         return f"{self.order}, {self.service.name} - {self.kiekis}: {self.kaina}"
+
+
+class OrderReview(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, blank=True)
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField('Atsiliepimas', max_length=2000)

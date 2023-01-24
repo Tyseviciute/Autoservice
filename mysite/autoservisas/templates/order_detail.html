@@ -2,12 +2,36 @@
 {% block content %}
 <h4>Car</h4>
 <p><a href="{% url 'car-detail' order.car.id %}"> {{ order.car }}</a></p>
-<p>Price of all: {{ order.suma }}</p>
-<p>Order status: {{ order.get_status_display }}</p>
+<hr>
+{% if user.is_authenticated %}
+<div class="fieldWrapper">
+<h4>Leave review:</h4>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.content }}
+        <br>
+        <input type="submit" value="Save">
+    </form>
+</div>
+{% endif %}
+<h4><strong>Order review: </strong></h4>
+<hr>
+{% if order.orderreview_set.all %}
+{% for review in order.orderreview_set.all %}
+
+<p>{{ review.reviewer }}, <em>{{ review.date_created }}</em></p>
+<p>{{ review.content }}</p>
+{% endfor %}
+{% else %}
+<p>Order hasn't reviews</p>
+{% endif %}
+<hr>
+<p><strong>Price of all: </strong>{{ order.ordercar.total_sum }}</p>
+<p><strong>Order status: </strong>{{ order.get_status_display }}</p>
 {% for order_car in order.ordercar_set.all %}
-<p>Quantity: {{ order_car.kiekis }}</p>
-<p>Price: {{ order_car.kaina }}</p>
-<p>Service: {{ order_car.service }}</p>
+<p><strong>Quantity: </strong>{{ order_car.kiekis }}</p>
+<p><strong>Price: </strong>{{ order_car.kaina }}</p>
+<p><strong>Service: </strong>{{ order_car.service }}</p>
 {% endfor %}
 
 {% endblock %}

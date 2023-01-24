@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AutoModel, Car, Order, OrderCar, Service
+from .models import AutoModel, Car, Order, OrderCar, Service, OrderReview
 
 
 # Register your models here.
@@ -27,8 +27,13 @@ class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'price')
 
 
+class OrderReviewAdmin(admin.ModelAdmin):
+    list_display = ('order', 'date_created', 'reviewer', 'content')
+
+
 admin.site.register(AutoModel)
 admin.site.register(Car, CarAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(OrderCar)
+admin.site.register(OrderReview, OrderReviewAdmin)

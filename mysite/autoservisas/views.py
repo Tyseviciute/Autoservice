@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 
+from .forms import OrderReviewForm
 from .models import Car, AutoModel, OrderCar, Order, Service
 from django.views import generic
 from django.shortcuts import render, get_object_or_404, redirect
@@ -8,6 +10,8 @@ from django.db.models import Q
 from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.views.generic.edit import FormMixin
+
 
 from django.http import HttpResponse
 
@@ -52,9 +56,31 @@ class OrderListView(generic.ListView):
     template_name = 'order_list.html'
 
 
-class OrderDetailView(generic.DetailView):
+class OrderDetailView(FormMixin, generic.DetailView):
     model = Order
     template_name = 'order_detail.html'
+    form_class = OrderReviewForm
+
+    class Meta:
+        ordering = ['car']
+
+    # nukreipimas po sekmingo komentaro papostinimo atgal i knygos views
+    def get_success_url(self):
+        return reverse('order-detail', kwargs={'pk': self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_valid(form)
+
+    def form_valid(self, form):
+        form.instance.order = self.object
+        form.instance.reviewer = self.request.user
+        form.save()
+        return super(OrderDetailView, self).form_valid(form)
 
 
 def search(request):

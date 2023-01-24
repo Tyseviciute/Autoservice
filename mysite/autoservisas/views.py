@@ -2,9 +2,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Car, AutoModel, OrderCar, Order, Service
 from django.views import generic
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.forms import User
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
 
 from django.http import HttpResponse
 
@@ -70,3 +73,32 @@ class LoanedOrderByUserListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return Order.objects.all()
+
+
+@csrf_protect
+def register(request):
+    if request.method == "POST":
+        # pasiimame reiksmes is formos lauku
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password1 = request.POST["password"]
+        password2 = request.POST["password2"]
+        # ar sutampa passwordai
+        if password1 == password2:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, f"User name {username} is busy")
+                return redirect("register")
+            else:
+                # ar nera tokio pacio email
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, f"Email adress {email} existing")
+                    return redirect("register")
+                else:
+                    # taskas kai viskas tvarkoje  ir visi tikrinimai praeiti
+                    User.objects.create_user(username=username, email=email, password=password1)
+                    messages.info(request, f"User {username} was successfuly registred")
+                    return redirect("login")
+        else:
+            messages.error(request, f"Passwords does not match")
+            return redirect("register")
+    return render(request, 'register.html')

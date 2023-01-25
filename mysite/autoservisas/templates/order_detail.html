@@ -26,12 +26,12 @@
 <p>Order hasn't reviews</p>
 {% endif %}
 <hr>
-<p><strong>Price of all: </strong>{{ order.ordercar.total_sum }}</p>
 <p><strong>Order status: </strong>{{ order.get_status_display }}</p>
 {% for order_car in order.ordercar_set.all %}
 <p><strong>Quantity: </strong>{{ order_car.kiekis }}</p>
 <p><strong>Price: </strong>{{ order_car.kaina }}</p>
 <p><strong>Service: </strong>{{ order_car.service }}</p>
+<p><strong>Price of all: </strong>{{ order_car.get_sum_of_order }}</p>
 {% endfor %}
 
 {% endblock %}

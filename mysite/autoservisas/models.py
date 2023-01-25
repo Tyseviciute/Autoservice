@@ -55,7 +55,7 @@ class Service(models.Model):
 
 class Order(models.Model):
     date = models.DateTimeField('Date', null=True, blank=True)
-    suma = models.FloatField('Sum', help_text='Enter a sum of order')
+    # suma = models.FloatField('Sum', help_text='Enter a sum of order')
     car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)
     returne = models.DateField('Return for client', null=True, blank=True)
 
@@ -101,9 +101,9 @@ class OrderCar(models.Model):
     service = models.ForeignKey('Service', on_delete=models.SET_NULL, null=True)
 
     @property
-    def sum_of_order(self):
-        total_sum = int(self.kiekis) * self.kaina
-        return total_sum
+    def get_sum_of_order(self):
+        return self.kiekis * int(self.kaina)
+
 
     class Meta:
         verbose_name = "Ordercar"

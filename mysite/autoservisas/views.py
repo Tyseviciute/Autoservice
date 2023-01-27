@@ -98,7 +98,7 @@ class LoanedOrderByUserListView(LoginRequiredMixin, generic.ListView):
     template_name = 'client_orders.html'
 
     def get_queryset(self):
-        return Order.objects.all()
+        return Order.objects.filter(owner=self.request.user)
 
 
 @csrf_protect

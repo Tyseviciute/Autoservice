@@ -8,3 +8,5 @@ class OrderReviewForm(forms.ModelForm):
         model = OrderReview
         fields = ('content', 'order', 'reviewer')
         widgets = {'order': forms.HiddenInput(), 'reviewer': forms.HiddenInput()}
+
+

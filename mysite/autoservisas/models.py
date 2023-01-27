@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 
 
-
 # Create your models here.
 class AutoModel(models.Model):
     make = models.CharField('Make name', max_length=50, help_text='Enter a car make')
@@ -27,7 +26,6 @@ class Car(models.Model):
     description = HTMLField(default='Cia yra automobilio aprasymas')
     automodel = models.ForeignKey('AutoModel', on_delete=models.SET_NULL, null=True)
     cover = models.ImageField('Photo', upload_to='covers', null=True)
-
 
     # pervadinti laukus klasiu
     class Meta:
@@ -55,7 +53,7 @@ class Service(models.Model):
 
 class Order(models.Model):
     date = models.DateTimeField('Date', null=True, blank=True)
-    # suma = models.FloatField('Sum', help_text='Enter a sum of order')
+    suma = models.FloatField('Sum', help_text='Enter a sum of order')
     car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)
     returne = models.DateField('Return for client', null=True, blank=True)
 
@@ -82,7 +80,6 @@ class Order(models.Model):
             return True
         return False
 
-
     class Meta:
         verbose_name = "Order"
         verbose_name_plural = "Orders"
@@ -103,7 +100,6 @@ class OrderCar(models.Model):
     @property
     def get_sum_of_order(self):
         return self.kiekis * int(self.kaina)
-
 
     class Meta:
         verbose_name = "Ordercar"
